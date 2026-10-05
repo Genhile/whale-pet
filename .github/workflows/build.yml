@@ -1,0 +1,27 @@
+name: Build Whale Girl Pet
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install PyQt5 pyinstaller
+
+      - name: Build exe
+        run: pyinstaller -F -w -n WhaleGirlPet whale_girl_pet.py
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: WhaleGirlPet
+          path: dist/WhaleGirlPet.exe
